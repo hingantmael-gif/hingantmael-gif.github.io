@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111F" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Azimut" />
+    <meta name="application-name" content="Azimut" />
+    <link rel="icon" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>Télécharger Azimut</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: #07111f;
+        color: #f4f7fa;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        max-width: 420px;
+        width: 100%;
+        background: #0f1c2e;
+        border: 1px solid #252b36;
+        border-radius: 16px;
+        padding: 32px 28px;
+        text-align: center;
+      }
+      .logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        display: block;
+        margin: 0 auto 20px;
+        box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      }
+      h1 { font-size: 1.5rem; margin-bottom: 8px; }
+      p { color: #8892a4; font-size: 0.9rem; line-height: 1.5; margin-bottom: 24px; }
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 14px 20px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 12px;
+      }
+      .btn-primary { background: #0E8F6F; color: #fff; }
+      .btn-secondary { background: #111318; color: #f4f7fa; border: 1px solid #252b36; }
+      .hint { font-size: 0.75rem; color: #8892a4; margin-top: 16px; }
+      #ios-guide {
+        display: none;
+        text-align: left;
+        margin-top: 16px;
+        padding: 16px;
+        background: #111318;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        color: #8892a4;
+      }
+      #ios-guide strong { color: #fff; }
+      #ios-guide ol { margin: 8px 0 0 18px; }
+      #ios-guide li { margin-bottom: 4px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <img class="logo" src="/icon.png" width="72" height="72" alt="Azimut" />
+      <h1>Azimut</h1>
+      <p>Coaching multi-sport — installez l&apos;application sur votre téléphone ou ordinateur.</p>
+
+      <button type="button" class="btn btn-primary" id="install-btn">Installer sur cet appareil</button>
+      <a href="/" class="btn btn-secondary" id="open-app">Ouvrir l&apos;application</a>
+
+      <div id="ios-guide">
+        <strong>iPhone / iPad</strong>
+        <ol>
+          <li>Ouvrez cette page dans <strong>Safari</strong></li>
+          <li>Appuyez sur <strong>Partager</strong></li>
+          <li>Choisissez <strong>Sur l&apos;écran d&apos;accueil</strong></li>
+        </ol>
+      </div>
+
+      <p class="hint" id="url-hint"></p>
+    </div>
+
+    <script>
+      /* Exactement comme BTP Pro : capturer BIP, un clic → prompt(). */
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js?v=25', { scope: '/' }).then(function (reg) {
+          try { reg.update(); } catch (e) {}
+        }).catch(function () {});
+      }
+
+      document.getElementById('url-hint').textContent = 'Lien : ' + window.location.origin;
+
+      var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      var isStandalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        Boolean(navigator.standalone);
+
+      if (isStandalone) {
+        document.getElementById('install-btn').textContent = 'Application installée ✓';
+        document.getElementById('install-btn').disabled = true;
+      }
+
+      var deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredPrompt = e;
+      });
+
+      window.addEventListener('appinstalled', function () {
+        deferredPrompt = null;
+        document.getElementById('install-btn').textContent = 'Application installée ✓';
+        document.getElementById('install-btn').disabled = true;
+      });
+
+      document.getElementById('install-btn').addEventListener('click', async function () {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          return;
+        }
+        if (isIos) {
+          document.getElementById('ios-guide').style.display = 'block';
+          return;
+        }
+        alert(
+          'Utilisez le menu du navigateur (⋮) → « Installer l\'application » ou « Ajouter à l\'écran d\'accueil ».'
+        );
+      });
+    </script>
+  </body>
+</html>

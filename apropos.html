@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <script>/* AZIMUT_OAUTH_BOUNCE */
+  (function () {
+    var q = location.search || '';
+    var h = location.hash || '';
+    if (/[?&#](code|state|error|access_token)=/.test(q + h)) {
+      location.replace('/welcome' + q + h);
+    }
+  })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Azimut — Coaching multi-sport</title>
+  <meta
+    name="description"
+    content="Azimut est une application de coaching multi-sport : plans d’entraînement, récupération, sommeil, suivi course / vélo / natation / triathlon."
+  />
+  <meta name="google-site-verification" content="6yGL_C7i88c19mN5yId8YEK4FvQgf6K29fTXr1Cm_Pw" />
+  <style>
+    :root {
+      --ink: #07111f;
+      --jade: #0e8f6f;
+      --mint: #3dff9a;
+      --text: #e8f3ef;
+      --muted: rgba(232, 243, 239, 0.78);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(14,143,111,0.28), transparent),
+        linear-gradient(165deg, #0a1628 0%, var(--ink) 45%, #061018 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .eyebrow {
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mint);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      margin: 0 0 16px;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin: 36px 0 12px;
+      color: #fff;
+    }
+    p { color: var(--muted); font-size: 1.05rem; margin: 0 0 14px; }
+    ul { color: var(--muted); padding-left: 1.2em; }
+    li { margin-bottom: 8px; }
+    .cta {
+      display: inline-block;
+      margin-top: 28px;
+      margin-right: 12px;
+      padding: 14px 22px;
+      border-radius: 10px;
+      background: var(--mint);
+      color: var(--ink);
+      font-family: system-ui, sans-serif;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .cta.secondary {
+      background: transparent;
+      color: var(--mint);
+      border: 1px solid rgba(61, 255, 154, 0.45);
+    }
+    a.inline { color: var(--mint); font-weight: 700; }
+    .privacy-box {
+      margin-top: 28px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(61, 255, 154, 0.28);
+      background: rgba(14, 143, 111, 0.12);
+      font-family: system-ui, sans-serif;
+      font-size: 0.95rem;
+    }
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Application multi-sport · coaching</p>
+    <h1>Azimut</h1>
+    <p>
+      <strong style="color:#fff">Objectif :</strong> aider les sportifs à progresser avec un plan
+      d’entraînement clair (course à pied, vélo, natation, triathlon, musculation), en suivant la
+      charge, la récupération et le sommeil — sans perdre le plaisir de s’entraîner.
+    </p>
+    <p>
+      Azimut construit des programmes adaptés à ton niveau et à ta disponibilité, propose le suivi
+      des séances, la récupération musculaire, l’export vers les montres (Garmin, Apple, etc.) et un
+      espace profil pour suivre ta progression.
+    </p>
+
+    <h2>À qui s’adresse l’app ?</h2>
+    <ul>
+      <li>Débutants qui veulent un plan simple et progressif</li>
+      <li>Athlètes confirmés (5 km → Ironman, fond, VMA…)</li>
+      <li>Sportifs multi-disciplines (triathlon, duathlon…)</li>
+    </ul>
+
+    <h2>Fonctionnalités principales</h2>
+    <ul>
+      <li>Création de programmes et calendrier d’entraînement</li>
+      <li>Suivi du corps / récupération musculaire</li>
+      <li>Sommeil et readiness</li>
+      <li>Connexion de compte (e-mail ou Google)</li>
+      <li>Export de séances vers la montre</li>
+    </ul>
+
+    <h2>Pourquoi Azimut demande des données Google ?</h2>
+    <p>
+      Lorsque tu choisis <strong style="color:#fff">« Continuer avec Google »</strong>, Azimut
+      demande l’accès à ton <strong style="color:#fff">adresse e-mail</strong>, ton
+      <strong style="color:#fff">nom</strong> et ton <strong style="color:#fff">profil de base</strong>
+      uniquement pour :
+    </p>
+    <ul>
+      <li>créer ou retrouver ton compte Azimut sans mot de passe séparé ;</li>
+      <li>afficher ton identité sur ton profil dans l’application ;</li>
+      <li>sécuriser la connexion (pas d’envoi d’e-mails marketing via ton Gmail).</li>
+    </ul>
+    <p>
+      Azimut ne publie pas sur ton compte Google et ne vend pas ces données.
+      Tu peux aussi t’inscrire uniquement avec un e-mail et un mot de passe, sans Google.
+    </p>
+
+    <div class="privacy-box">
+      <strong style="color:#fff">Confidentialité :</strong>
+      lis notre
+      <a class="inline" href="/privacy.html">politique de confidentialité</a>
+      (données collectées, finalités, droits RGPD) et nos
+      <a class="inline" href="/terms.html">conditions d’utilisation</a>.
+      Aucune connexion n’est requise pour lire ces pages.
+    </div>
+
+    <a class="cta" href="/welcome">Ouvrir l’application Azimut</a>
+    <a class="cta secondary" href="/welcome">Créer un compte</a>
+
+    <footer>
+      <a class="inline" href="/privacy.html">Politique de confidentialité</a>
+      ·
+      <a class="inline" href="/terms.html">Conditions d’utilisation</a>
+      ·
+      <a class="inline" href="/welcome">App</a>
+    </footer>
+  </main>
+</body>
+</html>
