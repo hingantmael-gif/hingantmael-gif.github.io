@@ -1,0 +1,43 @@
+{
+  "id": "/",
+  "name": "Mova — coaching multi-sport",
+  "short_name": "Mova",
+  "description": "Ton coach multi-sport : plans d'entraînement, tracker GPS, progression et classement.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#07111F",
+  "theme_color": "#07111F",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["sports", "health", "fitness", "lifestyle"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Enregistrer une sortie",
+      "short_name": "Enregistrer",
+      "description": "Lance le tracker GPS",
+      "url": "/session/live?mode=free&sport=run",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Mon plan",
+      "short_name": "Plan",
+      "url": "/calendar",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Mes activités",
+      "short_name": "Activités",
+      "url": "/activities",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

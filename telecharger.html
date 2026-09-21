@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111F" />
+    <meta name="application-name" content="Mova" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Mova" />
+    <meta name="description" content="Installe Mova sur ton téléphone en 10 secondes : coaching multi-sport, tracker GPS, plans d'entraînement." />
+    <meta property="og:title" content="Installer Mova" />
+    <meta property="og:description" content="Ton coach multi-sport, directement sur ton écran d'accueil." />
+    <meta property="og:image" content="/icon-512.png" />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>Installer Mova</title>
+    <script>
+      /* Capturé le plus tôt possible : le navigateur peut le déclencher avant la fin du chargement. */
+      window.__bip = null;
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        window.__bip = e;
+        if (window.__onBip) window.__onBip();
+      });
+    </script>
+    <style>
+      :root { --mint: #3dff9a; --cyan: #22d3ee; --ink: #07111f; }
+      * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+      html, body { min-height: 100%; }
+      body {
+        font-family: 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: var(--ink);
+        color: #f4f7fa;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        justify-content: center;
+        padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+        overflow-x: hidden;
+        position: relative;
+      }
+      /* Fond aurore animé (même identité que l'app) */
+      .aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+      .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; animation: drift 14s ease-in-out infinite alternate; }
+      .b1 { width: 420px; height: 420px; background: var(--mint); top: -140px; left: -120px; opacity: 0.32; }
+      .b2 { width: 380px; height: 380px; background: var(--cyan); bottom: -120px; right: -120px; opacity: 0.30; animation-duration: 18s; }
+      .b3 { width: 300px; height: 300px; background: #a78bfa; top: 40%; left: 55%; opacity: 0.14; animation-duration: 22s; }
+      @keyframes drift { to { transform: translate(40px, 30px) scale(1.12); } }
+      @media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
+
+      main { position: relative; z-index: 1; width: 100%; max-width: 440px; }
+      .card {
+        background: rgba(10, 22, 40, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 28px;
+        padding: 30px 24px 24px;
+        text-align: center;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+      }
+      .logo { width: 96px; height: 96px; border-radius: 24px; display: block; margin: 0 auto 16px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45); }
+      h1 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
+      .tag { color: #c5d0dd; font-size: 0.98rem; line-height: 1.5; margin: 8px 0 22px; }
+
+      .btn {
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        width: 100%; padding: 16px 20px; border-radius: 16px;
+        font: inherit; font-size: 1.05rem; font-weight: 800; text-decoration: none; cursor: pointer; border: none;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+      }
+      .btn:active { transform: scale(0.98); }
+      .btn-primary { background: linear-gradient(135deg, #12b87a, var(--cyan)); color: #04140d; box-shadow: 0 10px 26px rgba(18, 184, 122, 0.4); }
+      .btn-ghost { background: #0a1628; color: #fff; border: 1.5px solid rgba(255, 255, 255, 0.4); margin-top: 12px; }
+      .btn[disabled] { opacity: 0.6; cursor: default; }
+      .status { min-height: 1.3em; margin-top: 12px; font-size: 0.85rem; color: #9fb0c3; }
+
+      .panel { display: none; text-align: left; margin-top: 18px; padding: 16px; border-radius: 18px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); }
+      .panel.show { display: block; }
+      .panel h2 { font-size: 0.95rem; margin-bottom: 10px; }
+      .steps { list-style: none; counter-reset: s; display: grid; gap: 10px; }
+      .steps li { counter-increment: s; display: flex; gap: 12px; align-items: flex-start; font-size: 0.92rem; line-height: 1.45; color: #dbe4ee; }
+      .steps li::before { content: counter(s); flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--mint); color: #04140d; font-weight: 800; font-size: 0.8rem; display: grid; place-items: center; margin-top: 1px; }
+      .steps b { color: #fff; }
+      .ico { display: inline-block; vertical-align: -3px; width: 18px; height: 18px; }
+
+      .qr { margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+      .qr-box { background: #fff; padding: 10px; border-radius: 18px; display: inline-block; }
+      .qr img { display: block; width: 168px; height: 168px; image-rendering: pixelated; }
+      .qr p { font-size: 0.85rem; color: #9fb0c3; margin-top: 10px; line-height: 1.45; }
+      .qr.desktop-first { border-top: none; padding-top: 0; margin: 0 0 22px; }
+      .qr.desktop-first img { width: 200px; height: 200px; }
+
+      .how { margin-top: 22px; display: grid; gap: 10px; text-align: left; }
+      .how div { display: flex; gap: 12px; align-items: center; font-size: 0.9rem; color: #c5d0dd; }
+      .how span { flex: none; width: 34px; height: 34px; border-radius: 12px; background: rgba(61, 255, 154, 0.14); display: grid; place-items: center; font-size: 1.1rem; }
+
+      .play-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 16px; border-radius: 16px; background: linear-gradient(135deg, #12b87a, var(--cyan)); color: #04140d; text-decoration: none; margin-bottom: 12px; }
+      .play-btn svg { flex: none; width: 26px; height: 26px; }
+      .play-btn div { text-align: left; flex: 1; }
+      .play-btn b { display: block; font-size: 1rem; font-weight: 800; }
+      .play-btn span { display: block; font-size: 0.78rem; opacity: 0.85; margin-top: 1px; }
+      .play-soon { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 14px; }
+      .play-soon svg { flex: none; width: 22px; height: 22px; opacity: 0.6; }
+      .play-soon b { display: block; font-size: 0.92rem; font-weight: 800; color: #dbe4ee; }
+      .play-soon span { display: block; font-size: 0.78rem; color: #9fb0c3; margin-top: 1px; }
+      .or-label { text-align: center; font-size: 0.8rem; font-weight: 700; color: #9fb0c3; margin: 2px 0 10px; }
+      .links { display: flex; gap: 8px; margin-top: 16px; }
+      .links button { flex: 1; padding: 11px 8px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.06); color: #e6edf5; font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+      footer { text-align: center; margin-top: 18px; font-size: 0.78rem; color: #7f90a5; }
+      footer a { color: #9fdcc4; text-decoration: none; margin: 0 6px; }
+      .arrow { display: none; position: fixed; left: 50%; bottom: 8px; transform: translateX(-50%); font-size: 2rem; animation: bounce 1s infinite; z-index: 5; }
+      .arrow.show { display: block; }
+      @keyframes bounce { 50% { transform: translate(-50%, 8px); } }
+    </style>
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+    <main>
+      <div class="card">
+        <img class="logo" src="/icon-192.png" width="96" height="96" alt="Mova" />
+        <h1>Installe Mova</h1>
+        <p class="tag">Ton coach multi-sport sur l'écran d'accueil — plein écran, comme une vraie application. Sans store, en 10 secondes.</p>
+
+        <!-- Ordinateur : le QR d'abord -->
+        <div class="qr desktop-first" id="qr-desktop" hidden>
+          <div class="qr-box"><img src="/qr-install.png" alt="QR code pour installer Mova" /></div>
+          <p><b>Scanne ce QR code avec ton téléphone</b><br />La page d'installation s'ouvre : appuie sur « Installer ».</p>
+        </div>
+
+        <!-- Android : Google Play si la fiche est en ligne ( remplacé au déploiement), sinon « bientôt ». -->
+        <a href="" class="play-btn" id="play-link" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#04140d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 8-16 8V4z"/></svg>
+          <div><b>Obtenir sur Google Play</b><span>Installation et mises à jour gérées par le store</span></div>
+        </a>
+        <div class="play-soon" id="play-soon" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9fb0c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 8-16 8V4z"/></svg>
+          <div><b>Bientôt disponible sur Google Play</b><span>En attendant, installe la même application ci-dessous</span></div>
+        </div>
+        <p class="or-label" id="or-label" hidden>Ou, sans passer par le store :</p>
+
+        <button type="button" class="btn btn-primary" id="install-btn">Installer l'application</button>
+        <a href="/" class="btn btn-ghost" id="open-app">Ouvrir dans le navigateur</a>
+        <p class="status" id="status" role="status"></p>
+
+        <div class="panel" id="panel-ios">
+          <h2>Sur iPhone / iPad (Safari)</h2>
+          <ol class="steps">
+            <li>Touche <b>Partager</b>
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#3dff9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+              en bas de l'écran</li>
+            <li>Fais défiler puis choisis <b>« Sur l'écran d'accueil »</b></li>
+            <li>Touche <b>Ajouter</b> : Mova apparaît avec les autres applications</li>
+          </ol>
+        </div>
+
+        <div class="panel" id="panel-android">
+          <h2>Installer manuellement</h2>
+          <ol class="steps">
+            <li>Ouvre le menu du navigateur <b>⋮</b> (en haut à droite)</li>
+            <li>Choisis <b>« Installer l'application »</b> ou <b>« Ajouter à l'écran d'accueil »</b></li>
+            <li>Confirme : Mova apparaît sur ton écran d'accueil</li>
+          </ol>
+        </div>
+
+        <div class="panel" id="panel-inapp">
+          <h2>Ouvre-moi dans ton navigateur</h2>
+          <ol class="steps">
+            <li>Touche <b>⋮</b> ou <b>Partager</b> dans cette fenêtre</li>
+            <li>Choisis <b>« Ouvrir dans Chrome / Safari »</b></li>
+            <li>Reviens sur cette page et touche <b>Installer</b></li>
+          </ol>
+        </div>
+
+        <!-- Téléphone : le QR sert à installer sur un autre appareil -->
+        <div class="qr" id="qr-mobile">
+          <div class="qr-box"><img src="/qr-install.png" alt="QR code pour installer Mova" /></div>
+          <p>Un autre appareil ? Scanne ce QR code.</p>
+        </div>
+
+        <div class="how">
+          <div><span>📷</span> Scanne le QR code ou ouvre le lien</div>
+          <div><span>⬇️</span> Touche « Installer l'application »</div>
+          <div><span>🚀</span> Ouvre Mova depuis ton écran d'accueil</div>
+        </div>
+
+        <div class="links">
+          <button type="button" id="copy-btn">Copier le lien</button>
+          <button type="button" id="share-btn" hidden>Partager</button>
+        </div>
+      </div>
+      <footer>
+        <a href="/settings/legal/terms">Conditions</a>·<a href="/settings/legal/privacy">Confidentialité</a>
+      </footer>
+    </main>
+    <div class="arrow" id="arrow" aria-hidden="true">👇</div>
+
+    <script>
+      (function () {
+        var $ = function (id) { return document.getElementById(id); };
+        var ua = navigator.userAgent || '';
+        var isIos = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        var isAndroid = /android/i.test(ua);
+        var isMobile = isIos || isAndroid;
+        var inApp = /FBAN|FBAV|Instagram|Snapchat|TikTok|MicroMessenger|Line\/|Twitter|LinkedInApp|GSA\/|; wv\)/i.test(ua);
+        var isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+        var LINK = location.origin + '/telecharger.html';
+
+        var btn = $('install-btn');
+        var status = $('status');
+
+        function show(id) { $(id).classList.add('show'); }
+        function setInstalled() {
+          btn.textContent = 'Ouvrir Mova';
+          btn.onclick = function () { location.href = '/'; };
+          status.textContent = 'Mova est installée sur cet appareil ✓';
+          $('open-app').style.display = 'none';
+        }
+
+        /* Le service worker rend l'installation possible et l'app disponible hors ligne. */
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js?v=48', { scope: '/' }).then(function (r) { try { r.update(); } catch (e) {} }).catch(function () {});
+        }
+
+        if (!isMobile) { $('qr-desktop').hidden = false; $('qr-mobile').style.display = 'none'; }
+        if (navigator.share) $('share-btn').hidden = false;
+
+        /* Google Play : le jeton est remplacé par scripts/deploy-install-site.mjs depuis EXPO_PUBLIC_PLAY_STORE_URL. */
+        var playUrl = '';
+        var playConfigured = playUrl.indexOf('') === -1 && playUrl.length > 0;
+        if (isAndroid) {
+          if (playConfigured) { $('play-link').hidden = false; $('or-label').hidden = false; }
+          else { $('play-soon').hidden = false; }
+        }
+
+        if (isStandalone) { setInstalled(); return; }
+
+        window.addEventListener('appinstalled', function () { window.__bip = null; setInstalled(); });
+
+        btn.addEventListener('click', function () {
+          if (inApp) { show('panel-inapp'); status.textContent = 'Ce navigateur intégré ne peut pas installer d\'application.'; return; }
+          if (window.__bip) {
+            window.__bip.prompt();
+            window.__bip.userChoice.then(function (c) {
+              window.__bip = null;
+              status.textContent = c.outcome === 'accepted' ? 'Installation en cours…' : 'Installation annulée — tu peux réessayer.';
+            });
+            return;
+          }
+          if (isIos) { show('panel-ios'); $('arrow').classList.add('show'); setTimeout(function () { $('arrow').classList.remove('show'); }, 5000); return; }
+          show('panel-android');
+        });
+
+        /* iPhone : pas d'invite automatique possible (règle d'Apple) → on affiche directement le guide. */
+        if (isIos && !inApp) { show('panel-ios'); }
+        if (inApp) { show('panel-inapp'); }
+
+        window.__onBip = function () { status.textContent = 'Prête à installer ✓'; };
+        if (window.__bip) window.__onBip();
+
+        $('copy-btn').addEventListener('click', function () {
+          var done = function () { $('copy-btn').textContent = 'Lien copié ✓'; setTimeout(function () { $('copy-btn').textContent = 'Copier le lien'; }, 2000); };
+          if (navigator.clipboard) navigator.clipboard.writeText(LINK).then(done, function () { prompt('Copie ce lien :', LINK); });
+          else prompt('Copie ce lien :', LINK);
+        });
+        $('share-btn').addEventListener('click', function () {
+          navigator.share({ title: 'Mova', text: 'Installe Mova, ton coach multi-sport', url: LINK }).catch(function () {});
+        });
+      })();
+    </script>
+  </body>
+</html>
